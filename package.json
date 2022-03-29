@@ -1,0 +1,15 @@
+{
+  "name": "bhs-1-shorturl",
+  "version": "1.0.0",
+  "description": "prueba con motores de plantilla",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
