@@ -13,6 +13,7 @@ app.set("views","./views");
 
 
 app.use("/", require('./routes/home'));
+app.use("/auth", require('./routes/auth'));
 app.use(express.static(__dirname + "/public"));
 
 
