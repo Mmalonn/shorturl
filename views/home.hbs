@@ -1,1 +1,17 @@
 <h1>Hola desde home</h1>
+
+
+{{#each urls}}
+
+<article class="card">
+    <div class="card-body">
+        <p>{{this.origin}}</p>
+        <p>{{this.shorURL}}</p>
+        <a href="#" class="btn btn-danger">Eliminar</a>
+        <a href="#" class="btn btn-warning">Editar</a>
+        <a href="#" class="btn btn-info">Copiar</a>
+    </div>
+</article>
+
+{{/each}}
+<br>

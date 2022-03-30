@@ -14,7 +14,12 @@ app.set("views","./views");
 
 
 app.get("/",(req,res)=>{
-    res.render("home");
+    const urls=[
+        {origin: "www.google.com/ruta1", shortURL:"ruta1"},
+        {origin: "www.google.com/ruta2", shortURL:"ruta2"},
+        {origin: "www.google.com/ruta3", shortURL:"ruta3"}
+    ]
+    res.render("home",{urls:urls});
 
 })
 
