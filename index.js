@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const {create}=require("express-handlebars");
 const hbs=create({
-    extname:".hbs"
+    extname:".hbs",
+    partialsDir:["views/components"]
 });
 
 app.engine(".hbs",hbs.engine);
