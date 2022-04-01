@@ -8,7 +8,7 @@ const leerUrls=async(req,res)=>{
     }catch(error){
         console.log(error);
         res.send("fallo algo...");
-        
+
     }
     
 };
@@ -25,7 +25,19 @@ const agregarUrl=async(req,res)=>{
     }
 };
 
+const eliminarUrl=async(req,res)=>{
+    const {id}=req.params;
+    try{
+        await Url.findByIdAndDelete(id);
+        res.redirect("/")
+    } catch(error){
+        console.log(error);
+        res.send("algo salio mal");
+    }
+}
+
 module.exports={
     leerUrls,
     agregarUrl,
+    eliminarUrl
 }
