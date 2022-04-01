@@ -2,13 +2,15 @@ const Url = require("../models/Url");
 const {nanoid}=require("nanoid");
 
 const leerUrls=async(req,res)=>{
-    const urls=[
-        {origin: "www.google.com/ruta1", shortURL:"ruta1"},
-        {origin: "www.google.com/ruta2", shortURL:"ruta2"},
-        {origin: "www.google.com/ruta3", shortURL:"ruta3"},
-        {origin: "www.google.com/ruta4", shortURL:"ruta4"}
-    ]
-    res.render("home",{urls:urls});
+    try{
+        const urls=await Url.find().lean();
+        res.render("home",{urls:urls});
+    }catch(error){
+        console.log(error);
+        res.send("fallo algo...");
+        
+    }
+    
 };
 
 const agregarUrl=async(req,res)=>{
