@@ -11,6 +11,9 @@ const urlSchema= new Schema({
     shortURL:{
     type:String,
     unique:true,
-    default:nanoid(6)
+    default:nanoid(10)
     }
 })
+
+const Url=mongoose.model("Url", urlSchema)
+module.exports = Url
