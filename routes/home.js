@@ -1,5 +1,5 @@
 const express=require('express');
-const { leerUrls } = require('../controllers/homeController');
+const { leerUrls, agregarUrl } = require('../controllers/homeController');
 const router=express.Router();
 
 
@@ -7,6 +7,7 @@ const router=express.Router();
 
 
 router.get("/",leerUrls)
+router.post("/",agregarUrl)
 
 
 module.exports = router;

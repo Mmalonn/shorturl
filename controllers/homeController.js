@@ -8,6 +8,11 @@ const leerUrls=async(req,res)=>{
     res.render("home",{urls:urls});
 }
 
+const agregarUrl=async(req,res)=>{
+
+};
+
 module.exports={
     leerUrls,
+    agregarUrl,
 }
