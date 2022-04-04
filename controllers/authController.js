@@ -1,5 +1,7 @@
+const bcrypt = require("bcryptjs/dist/bcrypt");
 const {nanoid}=require("nanoid");
 const User = require("../models/User");
+
 
 const loginForm=(req,res)=>{
     res.render("login");
@@ -34,9 +36,24 @@ const confirmarCuenta=async(req,res)=>{
     }
 }
 
+const login=async(req,res)=>{
+    const {userName,password}=req.body;
+    try{
+        const user=await User.findOne({userName:userName});
+        if(!user) throw new Error ("no existe el usuario");
+        if (!user.cuentaConfirmada) throw new Error("falta confirmar la cuenta");
+        if (!(await user.comparePassword(password))) throw new Error("contraseña incorrecta");
+        res.redirect("/");
+    }catch(error){
+        console.log(error);
+        res.send(error.message);
+    }
+}
+
 module.exports={
     loginForm,
     registerForm,
     registerUser,
-    confirmarCuenta
+    confirmarCuenta,
+    login
 }
