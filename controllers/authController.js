@@ -16,7 +16,7 @@ const registerUser= async(req,res)=>{
         if (user) throw new Error ("ya existe usuario");
         user = new User({userName,email,password, tokenConfirm:nanoid()});
         await user.save();
-        res.send("usuario "+userName+" creado")
+        res.json("usuario "+userName+" creado")
     }catch(error){
         res.send(error.message);
     }
