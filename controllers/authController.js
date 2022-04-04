@@ -9,7 +9,6 @@ const registerForm=(req,res)=>{
 }
 
 const registerUser= async(req,res)=>{
-    console.log(req.body);
     const {userName,email,password}=req.body;
     try{
         let user=await User.findOne({email:email});
@@ -20,11 +19,24 @@ const registerUser= async(req,res)=>{
     }catch(error){
         res.send(error.message);
     }
-
+}
+const confirmarCuenta=async(req,res)=>{
+    const {token}=req.params;
+    try{
+        const user=await User.findOne({tokenConfirm:token});
+        if(!user) throw new Error("no existe el token");
+        user.cuentaConfirmada=true;
+        user.tokenConfirm=null;
+        await user.save();
+        res.redirect("/auth/login");
+    }catch (error){
+        res.send(error.message);
+    }
 }
 
 module.exports={
     loginForm,
     registerForm,
-    registerUser
+    registerUser,
+    confirmarCuenta
 }
