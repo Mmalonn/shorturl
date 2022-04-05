@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
-const session=require("express-session");
-const flash=require("connect-flash");
+const session = require('express-session');
+const flash = require("connect-flash");
 const {create}=require("express-handlebars");
 const hbs=create({
     extname:".hbs",
@@ -15,19 +15,21 @@ require("./database/db");
 app.engine(".hbs",hbs.engine);
 app.set("view engine", ".hbs");
 app.set("views","./views");
-
-
-app.use(express.urlencoded({extended:true}))
-app.use("/", require('./routes/home'));
-app.use("/auth", require('./routes/auth'));
-app.use(express.static(__dirname + "/public"));
 app.use(session({
     secret:"SW",
     resave:false,
     saveUninitialized:false,
-    name:"SM"
+    name:"SM",
 }));
-app.use(flash());
+app.use(flash())
+app.use(express.urlencoded({extended:true}))
+app.use("/", require('./routes/home'));
+app.use("/auth", require('./routes/auth'));
+app.use(express.static(__dirname + "/public"));
+
+
+
+
 
 
 

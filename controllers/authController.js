@@ -1,20 +1,45 @@
+
 const bcrypt = require("bcryptjs/dist/bcrypt");
 const {nanoid}=require("nanoid");
 const User = require("../models/User");
 const {validationResult}=require("express-validator");
 
 
+
 const loginForm=(req,res)=>{
-    res.render("login");
+    res.render("login", {mensajes: req.flash('mensajes')});
 }
+
+
+const loginUser=async(req,res)=>{
+    const errors=validationResult(req);
+    if(!errors.isEmpty()){
+        req.flash("mensajes",errors.array());
+        return res.redirect("/auth/login");
+    }
+    const {userName,password}=req.body;
+    try{
+        const user=await User.findOne({userName:userName});
+        if(!user) throw new Error ("no existe el usuario");
+        if (!user.cuentaConfirmada) throw new Error("falta confirmar la cuenta");
+        if (!(await user.comparePassword(password))) throw new Error("contraseña incorrecta");
+        res.redirect("/");
+    }catch(error){
+        req.flash("mensajes",[{msg:error.message}]);
+        return res.redirect("/auth/login")
+    }
+}
+
+
 const registerForm=(req,res)=>{
-    res.render("register");
+    res.render("register", {mensajes: req.flash('mensajes')});
 }
 
 const registerUser= async(req,res)=>{
     const errors=validationResult(req);
     if(!errors.isEmpty()){
-        return res.json(errors);
+        req.flash("mensajes",errors.array());
+        return res.redirect("/auth/register");
     }
     const {userName,email,password}=req.body;
     try{
@@ -22,9 +47,10 @@ const registerUser= async(req,res)=>{
         if (user) throw new Error ("ya existe usuario");
         user = new User({userName,email,password, tokenConfirm:nanoid()});
         await user.save();
-        res.json("usuario "+userName+" creado")
+        return res.redirect("/auth/login")
     }catch(error){
-        res.send(error.message);
+        req.flash("mensajes",[{msg:error.message}]);
+        return res.redirect("/auth/register")
     }
 }
 
@@ -36,34 +62,20 @@ const confirmarCuenta=async(req,res)=>{
         user.cuentaConfirmada=true;
         user.tokenConfirm=null;
         await user.save();
-        res.redirect("/auth/login");
+        req.flash("mensajes",{msg:"cuenta verificada, ya puedes ingresar"});
+        return res.redirect("/auth/login");
     }catch (error){
-        res.send(error.message);
+        req.flash("mensajes",[{msg:error.message}]);
+        return res.redirect("/auth/login")
     }
 }
 
-const login=async(req,res)=>{
-    const errors=validationResult(req);
-    if(!errors.isEmpty()){
-        return res.json(errors);
-    }
-    const {userName,password}=req.body;
-    try{
-        const user=await User.findOne({userName:userName});
-        if(!user) throw new Error ("no existe el usuario");
-        if (!user.cuentaConfirmada) throw new Error("falta confirmar la cuenta");
-        if (!(await user.comparePassword(password))) throw new Error("contraseña incorrecta");
-        res.redirect("/");
-    }catch(error){
-        console.log(error);
-        res.send(error.message);
-    }
-}
+
 
 module.exports={
     loginForm,
     registerForm,
     registerUser,
     confirmarCuenta,
-    login
+    loginUser
 }
