@@ -1,5 +1,5 @@
 const express=require('express');
-const { loginForm, registerForm, registerUser, confirmarCuenta, loginUser } = require('../controllers/authController');
+const { loginForm, registerForm, registerUser, confirmarCuenta, loginUser, cerrarSesion } = require('../controllers/authController');
 const router=express.Router();
 const {body}=require("express-validator");
 
@@ -34,6 +34,7 @@ router.post("/login",[
         .escape()
 ], loginUser)
 
+router.get("/logout", cerrarSesion);
 
 
 

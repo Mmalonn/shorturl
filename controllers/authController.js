@@ -23,7 +23,10 @@ const loginUser=async(req,res)=>{
         if(!user) throw new Error ("no existe el usuario");
         if (!user.cuentaConfirmada) throw new Error("falta confirmar la cuenta");
         if (!(await user.comparePassword(password))) throw new Error("contraseña incorrecta");
-        res.redirect("/");
+        req.login(user,function(err){
+            if(err) throw new Error("error al crear la sesion");
+            return res.redirect("/");
+        })
     }catch(error){
         req.flash("mensajes",[{msg:error.message}]);
         return res.redirect("/auth/login")
@@ -70,6 +73,11 @@ const confirmarCuenta=async(req,res)=>{
     }
 }
 
+const cerrarSesion=(req,res)=>{
+    req.logout()
+    return res.redirect("/auth/login");
+}
+
 
 
 module.exports={
@@ -77,5 +85,6 @@ module.exports={
     registerForm,
     registerUser,
     confirmarCuenta,
-    loginUser
+    loginUser,
+    cerrarSesion
 }

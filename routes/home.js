@@ -3,13 +3,14 @@ const express=require('express');
 const { redirect } = require('express/lib/response');
 const { leerUrls, agregarUrl, eliminarUrl, editarUrlForm, editarUrl, redireccionamiento} = require('../controllers/homeController');
 const urlValidar = require('../middlewares/urlValida');
+const verificarUsuario = require('../middlewares/verificarUsuario');
 const router=express.Router();
 
 
 
 
 
-router.get("/",leerUrls);
+router.get("/",verificarUsuario,leerUrls);
 router.post("/",urlValidar, agregarUrl);
 router.get("/eliminar/:id", eliminarUrl);
 router.get("/editar/:id", editarUrlForm);
