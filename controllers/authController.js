@@ -7,7 +7,7 @@ const {validationResult}=require("express-validator");
 
 
 const loginForm=(req,res)=>{
-    res.render("login", {mensajes: req.flash('mensajes')});
+    res.render("login");
 }
 
 
@@ -35,7 +35,7 @@ const loginUser=async(req,res)=>{
 
 
 const registerForm=(req,res)=>{
-    res.render("register", {mensajes: req.flash('mensajes')});
+    res.render("register");
 }
 
 const registerUser= async(req,res)=>{

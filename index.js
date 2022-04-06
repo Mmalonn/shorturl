@@ -48,6 +48,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(csrf());
 app.use((req,res,next)=>{
     res.locals.csrfToken=req.csrfToken();
+    res.locals.mensajes=req.flash("mensajes");
     next();
 });
 
