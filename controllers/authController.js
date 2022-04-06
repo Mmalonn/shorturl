@@ -2,6 +2,7 @@ const {nanoid}=require("nanoid");
 const User = require("../models/User");
 const {validationResult}=require("express-validator");
 const nodemailer=require("nodemailer");
+const { transporter } = require("../config/mailer");
 require ("dotenv").config()
 
 
@@ -51,21 +52,45 @@ const registerUser= async(req,res)=>{
         user = new User({userName,email,password, tokenConfirm:nanoid()});
         await user.save();
 
-        const transport = nodemailer.createTransport({
-            host: "smtp.mailtrap.io",
-            port: 2525,
-            auth: {
-              user: process.env.userEmail,
-              pass: process.env.passEmail
-            }
-          });
-        await transport.sendMail({
-            from:"Remitente",
+
+        await transporter.sendMail({
+            from: 'Url Page', // sender address
             to:user.email,
-            subject:"Verifica tu usuario",
-            html:`<a href="http://localhost:5000/auth/confirmar/${user.tokenConfirm}">Haz click aqui para verificar tu usuario</a>`
-        })
+            subject: "Verifica tu usuario",
+            html: `<a href="http://localhost:5000/auth/confirmar/${user.tokenConfirm}">Haz click aqui para verificar tu usuario</a>`
+          });
+
+
+
+
+
+
+
+
+        // const transport = nodemailer.createTransport({
+        //     host: "smtp.mailtrap.io",
+        //     port: 2525,
+        //     auth: {
+        //       user: process.env.userEmail,
+        //       pass: process.env.passEmail
+        //     }
+        //   });
+        // await transport.sendMail({
+        //     from:"Remitente",
+        //     to:user.email,
+        //     subject:"Verifica tu usuario",
+        //     html:`<a href="http://localhost:5000/auth/confirmar/${user.tokenConfirm}">Haz click aqui para verificar tu usuario</a>`
+        // })
         
+
+
+
+
+
+
+
+
+
 
 
 
