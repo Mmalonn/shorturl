@@ -1,8 +1,8 @@
-
-const bcrypt = require("bcryptjs/dist/bcrypt");
 const {nanoid}=require("nanoid");
 const User = require("../models/User");
 const {validationResult}=require("express-validator");
+const nodemailer=require("nodemailer");
+require ("dotenv").config()
 
 
 
@@ -50,6 +50,26 @@ const registerUser= async(req,res)=>{
         if (user) throw new Error ("ya existe usuario");
         user = new User({userName,email,password, tokenConfirm:nanoid()});
         await user.save();
+
+        const transport = nodemailer.createTransport({
+            host: "smtp.mailtrap.io",
+            port: 2525,
+            auth: {
+              user: process.env.userEmail,
+              pass: process.env.passEmail
+            }
+          });
+        await transport.sendMail({
+            from:"Remitente",
+            to:user.email,
+            subject:"Verifica tu usuario",
+            html:`<a href="http://localhost:5000/auth/confirmar/${user.tokenConfirm}">Haz click aqui para verificar tu usuario</a>`
+        })
+        
+
+
+
+        req.flash("mensajes",[{msg:"Revisa tu correo electronico y valida tu cuenta"}]);
         return res.redirect("/auth/login")
     }catch(error){
         req.flash("mensajes",[{msg:error.message}]);
