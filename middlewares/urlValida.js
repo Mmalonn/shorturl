@@ -1,20 +1,25 @@
 const { URL } = require("url");
 const urlValidar = (req, res, next) => {
     try{
-        const {origenUrl}=req.body;
-        const urlFrontEnd = new URL(origenUrl);
-        if(urlFrontEnd.origenUrl !== "null"){
+        const {origenUrl} = req.body;
+        const urlFrontend=new URL(origenUrl);
+        if(urlFrontend.origin !== "null"){
             if(
-                urlFrontEnd.protocol==="http:"||
-                urlFrontEnd.protocol==="https:"
-            ){
-                return next();
-            }
+                urlFrontend.protocol==="http:"||
+                urlFrontend.protocol==="https:"
+                ){
+                    return next();
+                }
+                throw new Error ("El url debe ser con protocolo https://")
         }
-        throw new Error("no valida");
-
+        throw new Error ("Url no valida");
     }catch(error){
-        return res.send("url no valida");
+        if (error.message ==="Invalid URL"){
+            req.flash("mensajes",[{msg:"url no valida"}])
+        }else{
+            req.flash("mensajes", [{msg:error.message}])
+        }
+        return res.redirect("/");
     }
 }
 module.exports = urlValidar;
