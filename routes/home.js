@@ -11,10 +11,10 @@ const router=express.Router();
 
 
 router.get("/",verificarUsuario,leerUrls);
-router.post("/",urlValidar, agregarUrl);
-router.get("/eliminar/:id", eliminarUrl);
-router.get("/editar/:id", editarUrlForm);
-router.post("/editar/:id", urlValidar, editarUrl);
+router.post("/",verificarUsuario,urlValidar, agregarUrl);
+router.get("/eliminar/:id",verificarUsuario, eliminarUrl);
+router.get("/editar/:id",verificarUsuario, editarUrlForm);
+router.post("/editar/:id",verificarUsuario, urlValidar, editarUrl);
 router.get("/:shortURL", redireccionamiento);
 
 
