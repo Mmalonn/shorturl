@@ -3,36 +3,43 @@ const {nanoid}=require("nanoid");
 
 const leerUrls=async(req,res)=>{
     try{
-        const urls=await Url.find().lean();
+        const urls=await Url.find({user:req.user.id}).lean();
         res.render("home",{urls:urls});
     }catch(error){
-        console.log(error);
-        res.send("fallo algo...");
+        req.flash("mensajes",[{msg:error.message}]);
+        return res.redirect("/")
 
     }
     
 };
 
 const agregarUrl=async(req,res)=>{
-    const {origenUrl}=req.body
+    const {origin}=req.body
+    const {shortUrl}=req.body
     try{
-        const url = new Url({origin: origenUrl, shortURL:nanoid(8)})
+        const url= new Url({origin:origin,shortURL: nanoid(10),user:req.user.id});
         await url.save();
+        req.flash("mensajes",[{msg:"Url agregada"}]);
         res.redirect("/");
     } catch(error){
-        console.log(error)
-        res.send("error algo fallo")
+        req.flash("mensajes",[{msg:error.message}]);
+        return res.redirect("/")
     }
 };
 
 const eliminarUrl=async(req,res)=>{
     const {id}=req.params;
     try{
-        await Url.findByIdAndDelete(id);
+        const url= await Url.findById(id);
+        if(!url.user.equals(req.user.id)){
+            throw new Error("No te corresponde esa Url")
+        }
+        await url.remove()
+        req.flash("mensajes",[{msg:"Url eliminada"}]);
         res.redirect("/")
     } catch(error){
-        console.log(error);
-        res.send("algo salio mal");
+        req.flash("mensajes",[{msg:error.message}]);
+        return res.redirect("/")
     }
 }
 
@@ -40,33 +47,41 @@ const editarUrlForm=async(req,res)=>{
     const {id}=req.params;
     try{
         const url=await Url.findById(id).lean();
+        if(!url.user.equals(req.user.id)){
+            throw new Error("No te corresponde esa Url")
+        }
         res.render("home",{url});
     }catch (error){
-        console.log(error);
-        res.send("algo salio mal");
+        req.flash("mensajes",[{msg:error.message}]);
+        return res.redirect("/")
     }
 };
 
 const editarUrl=async(req,res)=>{
     const {id}=req.params;
-    const {origenUrl}=req.body;
+    const {origin}=req.body;
     try{
-        await Url.findByIdAndUpdate(id, {origin:origenUrl});
-        res.redirect("/");
+        const url = await Url.findById(id);
+        if(!url.user.equals(req.user.id)){
+            throw new Error("No te corresponde esa Url")
+        }
+        await url.updateOne({origin});
+        req.flash("mensajes",[{msg:"Url modificada"}]);
+        return res.redirect("/")
     }catch (error){
-        console.log(error);
-        res.send("algo salio mal");
+        req.flash("mensajes",[{msg:error.message}]);
+        return res.redirect("/")
     }
 };
 
 const redireccionamiento=async(req,res)=>{
     const {shortURL} = req.params;
     try{
-        const urlDB=await Url.findOne({shortURL: shortURL});
-        res.redirect(urlDB.origin)
+        const urlDB = await Url.findOne({shortURL: shortURL});
+        return res.redirect(urlDB.origin);
     }catch (error){
-        console.log(error);
-        res.send("algo salio mal");
+        req.flash("mensajes",[{msg:"Url no almacenada"}]);
+        return res.redirect("/")
     }
 }
 

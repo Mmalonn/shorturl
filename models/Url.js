@@ -1,5 +1,6 @@
 const mongoose=require("mongoose");
-const {nanoid}=require("nanoid");
+const { nanoid }=require("nanoid");
+
 const {Schema}=mongoose;
 
 const urlSchema= new Schema({
@@ -9,10 +10,15 @@ const urlSchema= new Schema({
         required:true
     },
     shortURL:{
-    type:String,
-    unique:true,
-    default:nanoid(10)
-    }
+        type:String,
+        unique:true,
+        required:true,
+    },
+    user:{
+        type:Schema.Types.ObjectId,
+        ref:"user",
+        required:true,
+    },
 })
 
 const Url=mongoose.model("Url", urlSchema)

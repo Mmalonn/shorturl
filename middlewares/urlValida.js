@@ -1,8 +1,8 @@
 const { URL } = require("url");
 const urlValidar = (req, res, next) => {
     try{
-        const {origenUrl} = req.body;
-        const urlFrontend=new URL(origenUrl);
+        const {origin} = req.body;
+        const urlFrontend=new URL(origin);
         if(urlFrontend.origin !== "null"){
             if(
                 urlFrontend.protocol==="http:"||
