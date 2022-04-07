@@ -11,7 +11,6 @@ const loginForm=(req,res)=>{
     res.render("login");
 }
 
-
 const loginUser=async(req,res)=>{
     const errors=validationResult(req);
     if(!errors.isEmpty()){
@@ -51,22 +50,12 @@ const registerUser= async(req,res)=>{
         if (user) throw new Error ("ya existe usuario");
         user = new User({userName,email,password, tokenConfirm:nanoid()});
         await user.save();
-
-
         await transporter.sendMail({
-            from: 'Url Page', // sender address
+            from: '"URLs page" <serrotsocramarcostorres6@gmail.com>', // sender address
             to:user.email,
             subject: "Verifica tu usuario",
             html: `<a href="http://localhost:5000/auth/confirmar/${user.tokenConfirm}">Haz click aqui para verificar tu usuario</a>`
           });
-
-
-
-
-
-
-
-
         // const transport = nodemailer.createTransport({
         //     host: "smtp.mailtrap.io",
         //     port: 2525,
@@ -82,18 +71,6 @@ const registerUser= async(req,res)=>{
         //     html:`<a href="http://localhost:5000/auth/confirmar/${user.tokenConfirm}">Haz click aqui para verificar tu usuario</a>`
         // })
         
-
-
-
-
-
-
-
-
-
-
-
-
         req.flash("mensajes",[{msg:"Revisa tu correo electronico y valida tu cuenta"}]);
         return res.redirect("/auth/login")
     }catch(error){

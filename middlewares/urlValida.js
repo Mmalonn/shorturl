@@ -15,7 +15,7 @@ const urlValidar = (req, res, next) => {
         throw new Error ("Url no valida");
     }catch(error){
         if (error.message ==="Invalid URL"){
-            req.flash("mensajes",[{msg:"url no valida"}])
+            req.flash("mensajes",[{msg:"Url no valida"}])
         }else{
             req.flash("mensajes", [{msg:error.message}])
         }
