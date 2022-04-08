@@ -45,9 +45,16 @@ module.exports.editarPerfil=async(req,res)=>{
             );
             
 
-            fs.renameSync(file.filepath,dirFile);
 
-            const image= await Jimp.read(dirFile);
+    
+
+
+            // fs.renameSync(file.filepath,dirFile);
+
+
+
+
+            const image= await Jimp.read(file);
             image.resize(200,200).quality(90).writeAsync(dirFile);
 
             const user = await User.findById(req.user.id);
