@@ -3,7 +3,7 @@ const {nanoid}=require("nanoid");
 
 const leerUrls=async(req,res)=>{
     try {
-        const urls = await Url.find({user:req.user.id});
+        const urls = await Url.find({user:req.user.id}).lean();
         return res.render("home", { urls: urls });
     }catch(error){
         req.flash("mensajes",[{msg:error.message}]);
