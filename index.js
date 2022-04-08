@@ -39,7 +39,7 @@ app.use(session({
         dbName: process.env.DBNAME,
     }),
     cookie:{
-        secure: false,
+        secure: true,
         maxAge:30*24*60*60*1000,
     }
 }));
