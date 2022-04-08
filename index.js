@@ -26,9 +26,6 @@ const hbs=create({
     partialsDir:["views/components"]
 });
 
-
-
-
 require("./database/db");
 
 app.set("trust proxy", 1);
