@@ -1,5 +1,4 @@
 const mongoose=require("mongoose");
-const { nanoid }=require("nanoid");
 
 const {Schema}=mongoose;
 
@@ -16,7 +15,7 @@ const urlSchema= new Schema({
     },
     user:{
         type:Schema.Types.ObjectId,
-        ref:"user",
+        ref:"User",
         required:true,
     },
 })
