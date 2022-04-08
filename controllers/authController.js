@@ -56,20 +56,6 @@ const registerUser= async(req,res)=>{
             subject: "Verifica tu usuario",
             html: `<a href="https://metfp.herokuapp.com/auth/confirmar/${user.tokenConfirm}">Haz click aqui para verificar tu usuario</a>`
           });
-        // const transport = nodemailer.createTransport({
-        //     host: "smtp.mailtrap.io",
-        //     port: 2525,
-        //     auth: {
-        //       user: process.env.userEmail,
-        //       pass: process.env.passEmail
-        //     }
-        //   });
-        // await transport.sendMail({
-        //     from:"Remitente",
-        //     to:user.email,
-        //     subject:"Verifica tu usuario",
-        //     html:`<a href="http://localhost:5000/auth/confirmar/${user.tokenConfirm}">Haz click aqui para verificar tu usuario</a>`
-        // })
         
         req.flash("mensajes",[{msg:"Revisa tu correo electronico y valida tu cuenta"}]);
         return res.redirect("/auth/login")

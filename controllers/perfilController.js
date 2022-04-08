@@ -43,9 +43,25 @@ module.exports.editarPerfil=async(req,res)=>{
                 __dirname,`../public/img/perfiles/${req.user.id}.${extension}`
             );
             
-            
 
-            fs.copyFile(file.filepath,dirFile);
+
+            fs.copyFile(file.filepath, dirFile, (err) => {
+                if (err) {
+                  console.log("Error Found:", err);
+                }
+                else {
+               
+                  // Get the current filenames
+                  // after the function
+                  getCurrentFilenames();
+                  console.log("\nFile Contents of copied_file:",
+                    fs.readFileSync(dirFile, "utf8"));
+                }
+              });
+
+
+
+
 
             const image= await Jimp.read(dirFile);
             image.resize(200,200).quality(90).writeAsync(dirFile);
