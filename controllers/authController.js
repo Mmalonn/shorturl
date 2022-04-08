@@ -52,9 +52,9 @@ const registerUser= async(req,res)=>{
         await user.save();
         await transporter.sendMail({
             from: '"URLs page" <serrotsocramarcostorres6@gmail.com>', // sender address
-            to:user.email,
+            to: user.email,
             subject: "Verifica tu usuario",
-            html: `<a href="${process.env.PATHHEROKU}/auth/confirmar/${user.tokenConfirm}">Haz click aqui para verificar tu usuario</a>`
+            html: `<a href="https://metfp.herokuapp.com/auth/confirmar/${user.tokenConfirm}">Haz click aqui para verificar tu usuario</a>`
           });
         // const transport = nodemailer.createTransport({
         //     host: "smtp.mailtrap.io",
