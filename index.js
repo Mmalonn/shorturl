@@ -8,6 +8,7 @@ const csrf = require("csurf");
 const MongoStore=require("connect-mongo");
 const mongoSanitize=require("express-mongo-sanitize");
 const cors=require("cors");
+require("dotenv").config();
 
 const corsOptions={
     credentials: true,
@@ -27,7 +28,7 @@ const hbs=create({
 
 
 
-require("dotenv").config();
+
 require("./database/db");
 
 app.use(session({
@@ -37,8 +38,12 @@ app.use(session({
     name:process.env.SECRETNAME,
     store:MongoStore.create({
         clientPromise: clientDB,
-        dbName: "myFirstDatabase"
-    })
+        dbName: process.env.DBNAME,
+    }),
+    cookie:{
+        secure: process.env.MODO==="produccion",
+        maxAge:30*24*60*60*1000,
+    }
 }));
 app.use(flash());
 
