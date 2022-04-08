@@ -20,10 +20,10 @@ module.exports.formPerfil = async(req,res)=>{
 
 module.exports.editarPerfil=async(req,res)=>{
     const form= new formidable.IncomingForm();
-    form.uploadDir='tmp';
     form.parse(req, async (err,fields,files)=>{
         try{
             if(err){
+                console.log(err);
                 throw new Error("fallo la subida de imagen");
             }
             const file=files.myfile;
