@@ -47,14 +47,14 @@ module.exports.editarPerfil=async(req,res)=>{
             console.log(dirFile);
             console.log(file.filepath);
 
-            fs.renameSync(file.filepath,dirFile);
+            // // fs.renameSync(file.filepath,dirFile);
 
-            const image= await Jimp.read(dirFile);
-            image.resize(200,200).quality(90).writeAsync(dirFile);
+            // const image= await Jimp.read(dirFile);
+            // image.resize(200,200).quality(90).writeAsync(dirFile);
 
-            const user = await User.findById(req.user.id);
-            user.imagen=`${req.user.id}.${extension}`;
-            await user.save();
+            // const user = await User.findById(req.user.id);
+            // user.imagen=`${req.user.id}.${extension}`;
+            // await user.save();
 
             req.flash("mensajes",[{msg:"Imagen subida"}]);
 
