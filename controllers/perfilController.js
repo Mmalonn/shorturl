@@ -37,25 +37,15 @@ module.exports.editarPerfil=async(req,res)=>{
             if(file.size>5*1024*1024){
                 throw new Error("debe ser una imagen de 5 mb o menos");
             }
-
-
+            
 
             const extension=file.mimetype.split("/")[1];
             const dirFile=path.join(
                 __dirname,`../public/img/perfiles/${req.user.id}.${extension}`
             );
-      
-            const viejo= file.filepath;
+            
 
-
-
-            fs.renameSync(viejo,dirFile);
-
-
-
-
-
-
+            fs.renameSync(file.filepath,dirFile);
 
             const image= await Jimp.read(dirFile);
             image.resize(200,200).quality(90).writeAsync(dirFile);
