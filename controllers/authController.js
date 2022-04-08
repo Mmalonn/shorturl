@@ -54,7 +54,7 @@ const registerUser= async(req,res)=>{
             from: '"URLs page" <serrotsocramarcostorres6@gmail.com>', // sender address
             to:user.email,
             subject: "Verifica tu usuario",
-            html: `<a href="${process.env.PATHHEROKU||'http:localhost:5000'}/auth/confirmar/${user.tokenConfirm}">Haz click aqui para verificar tu usuario</a>`
+            html: `<a href="${process.env.PATHHEROKU}/auth/confirmar/${user.tokenConfirm}">Haz click aqui para verificar tu usuario</a>`
           });
         // const transport = nodemailer.createTransport({
         //     host: "smtp.mailtrap.io",
