@@ -1,7 +1,7 @@
 <h1>Agregue sus URL</h1>
 
 {{> Form}}
-
-    {{> urls}}
-
+{{#each urls}}
+    {{> Cards item=this}}
+{{/each}}
 <br>
