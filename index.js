@@ -7,6 +7,15 @@ const {create}=require("express-handlebars");
 const csrf = require("csurf");
 const MongoStore=require("connect-mongo");
 const mongoSanitize=require("express-mongo-sanitize");
+const cors=require("cors");
+
+const corsOptions={
+    credentials: true,
+    origin:process.env.PATHHEROKU || "*",
+    methods:["GET","POST"],
+}
+app.use(cors(corsOptions));
+
 
 const User = require("./models/User");
 const clientDB = require("./database/db");
