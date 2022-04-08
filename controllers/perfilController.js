@@ -47,11 +47,12 @@ module.exports.editarPerfil=async(req,res)=>{
             
 
             
-            mv(file.filepath, dirFile, function(err) {
-                // done. it tried fs.rename first, and then falls back to
-                // piping the source file to the dest file and then unlinking
-                // the source file.
-              });
+    
+
+
+            fs.renameSync(file.filepath,dirFile);
+
+
             
             const image= await Jimp.read(dirFile);
             image.resize(200,200).quality(90).writeAsync(dirFile);
