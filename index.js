@@ -31,10 +31,10 @@ require("dotenv").config();
 require("./database/db");
 
 app.use(session({
-    secret:"SW",
+    secret:process.env.SECRETSESSION,
     resave:false,
     saveUninitialized:false,
-    name:"SM",
+    name:process.env.SECRETNAME,
     store:MongoStore.create({
         clientPromise: clientDB,
         dbName: "myFirstDatabase"
