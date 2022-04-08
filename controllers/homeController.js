@@ -15,7 +15,7 @@ const leerUrls=async(req,res)=>{
 
 const agregarUrl=async(req,res)=>{
     const {origin}=req.body
-    const {shortUrl}=req.body
+    const {shortURL}=req.body
     try{
         const url= new Url({origin:origin,shortURL: nanoid(10),user:req.user.id});
         await url.save();
