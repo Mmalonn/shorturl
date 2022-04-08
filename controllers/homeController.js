@@ -2,9 +2,9 @@ const Url = require("../models/Url");
 const {nanoid}=require("nanoid");
 
 const leerUrls=async(req,res)=>{
-    try{
+    try {
         const urls=await Url.find({user:req.user.id}).lean();
-        res.render("home", {urls:urls});
+        return res.render("home", { urls: urls });
     }catch(error){
         req.flash("mensajes",[{msg:error.message}]);
         return res.redirect("/")
