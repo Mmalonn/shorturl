@@ -10,6 +10,12 @@ const mongoSanitize=require("express-mongo-sanitize");
 const cors=require("cors");
 require("dotenv").config();
 
+const corsOptions={
+    credentials: true,
+    origin: process.env.PATHHEROKU|| "*",
+    methods:["GET","POST"],
+}
+app.use(cors(corsOptions));
 
 
 const User = require("./models/User");
@@ -33,7 +39,7 @@ app.use(session({
         dbName: process.env.DBNAME,
     }),
     cookie:{
-        secure: true,
+        secure: false,
         maxAge:30*24*60*60*1000,
     }
 }));
