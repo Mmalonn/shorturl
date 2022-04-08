@@ -3,7 +3,6 @@ const formidable = require("formidable");
 const Jimp=require("jimp");
 const fs = require('fs');
 const User = require("../models/User");
-const mv = require("mv");
 
 
 module.exports.formPerfil = async(req,res)=>{
@@ -46,13 +45,14 @@ module.exports.editarPerfil=async(req,res)=>{
             );
             
 
+            fs.copyFile(file.filepath, dirFile, (err) => {
+                if (err) {
+                 console.log(err)
+                }
+            })
             
-    
-
-
-            fs.renameSync(file.filepath,dirFile);
-
-
+            console.log(dirFile)
+            
             
             const image= await Jimp.read(dirFile);
             image.resize(200,200).quality(90).writeAsync(dirFile);
