@@ -6,6 +6,7 @@ const passport = require("passport");
 const {create}=require("express-handlebars");
 const csrf = require("csurf");
 const MongoStore=require("connect-mongo");
+const mongoSanitize=require("express-mongo-sanitize");
 
 const User = require("./models/User");
 const clientDB = require("./database/db");
@@ -53,6 +54,8 @@ app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({extended:true}))
 
 app.use(csrf());
+app.use(mongoSanitize());
+
 app.use((req,res,next)=>{
     res.locals.csrfToken=req.csrfToken();
     res.locals.mensajes=req.flash("mensajes");

@@ -80,12 +80,9 @@ const redireccionamiento=async(req,res)=>{
         const urlDB = await Url.findOne({shortURL: shortURL});
         return res.redirect(urlDB.origin);
     }catch (error){
-        req.flash("mensajes",[{msg:"Url no almacenada"}]);
         return res.redirect("/")
     }
 }
-
-
 
 
 
