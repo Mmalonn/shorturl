@@ -5,8 +5,11 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const {create}=require("express-handlebars");
 const csrf = require("csurf");
+const MongoStore=require("connect-mongo");
 
 const User = require("./models/User");
+const clientDB = require("./database/db");
+
 const hbs=create({
     extname:".hbs",
     partialsDir:["views/components"]
@@ -22,6 +25,10 @@ app.use(session({
     resave:false,
     saveUninitialized:false,
     name:"SM",
+    store:MongoStore.create({
+        clientPromise: clientDB,
+        dbName: "myFirstDatabase"
+    })
 }));
 app.use(flash());
 
