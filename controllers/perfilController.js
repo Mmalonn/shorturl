@@ -38,11 +38,14 @@ module.exports.editarPerfil=async(req,res)=>{
                 throw new Error("debe ser una imagen de 5 mb o menos");
             }
 
+
+
             const extension=file.mimetype.split("/")[1];
             const dirFile=path.join(
                 __dirname,`../public/img/perfiles/${req.user.id}.${extension}`
             );
-            
+            console.log(dirFile);
+            console.log(file.filepath);
 
             fs.renameSync(file.filepath,dirFile);
 
